@@ -51,7 +51,13 @@ function [ geo_bndry ] = geo_boundary( geo, iSide )
 %   Institut: University of Neuchatel
 %
 %   This program is free software, you can redistribute it and/or modify
-%   it. 
+%   it.
+%
+%   Copyright (C) 2015 Christoph Jäggli
+
+%   This program is distributed in the hope that it will be useful, but
+%   WITHOUT ANY WARRANTY; without even the implied warranty of
+%   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 paramOrigin = geo.paramDom.origin;
 paramSizeDir = geo.paramDom.sizeDir;
