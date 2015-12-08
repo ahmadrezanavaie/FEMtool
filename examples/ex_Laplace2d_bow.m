@@ -1,6 +1,7 @@
-%% Example Laplace 2-d in a rectangle
-%Solves the Poisson problem in a rectangle with mixed boundary conditions.
-%The numerical solution is compared to a given exact solution.
+%% Example Laplace 2-d in a bow
+%Solves the Poisson problem in a bow-shaped computational domain with
+%Dirichlet boundary conditions. The numerical solution is compared to a
+%given exact solution.  
 %
 %
 % -------------------------------------------------------------------------
@@ -21,46 +22,39 @@ close all
 clear all
 
 %% Geometry
-origin = [ 10; 20];
-sizeDom = [ 2; 5];
-geo = geo_2d( 'rectangle', origin, sizeDom);
+geo = geo_2d('bow');
 prbl.geo = geo;
 
 %% Simulation Parameters
 meth.nElDir = [ 40; 40];     % Mesh Size
 meth.nQRDir = [ 3; 3];       % Order of Quadrature Rule
-meth.rBFDir = [ 2; 2];       % Order of FEM Basis Functions
+meth.rBFDir = [ 1; 2];       % Order of FEM Basis Functions
 
 %% Exact Solution
-origin = geo.map(geo.paramDom.origin);
-sizeDom = geo.map(geo.paramDom.origin + geo.paramDom.sizeDir)-origin;
-a = 0.7/sizeDom(1); b = 2*pi/sizeDom(2);
-uEx = @(x)( exp( -a*(x(1,:)-origin(1)) ).*sin( b*(x(2,:)-origin(2)) ) );
-uExGrad = @(x)( [-a*uEx(x); b*exp( -a*(x(1,:)-origin(1)) ).*cos( b*(x(2,:)-origin(2)) ) ] );
+uEx = @(x)( sin( x(1,:)*pi ).*cos( x(2,:)*pi ) );
+uExGrad = @(x)( [ pi*cos( x(1,:)*pi ).*cos( x(2,:)*pi );...
+    -pi*sin( x(1,:)*pi ).*sin( x(2,:)*pi ) ] );
 
 %% Problem Parameters
 % Forcing Term and Diffusion Coefficient
-prbl.f = @(x)( (b^2-a^2)*uEx(x) );
+prbl.f = @(x)( (2*pi.^2)*uEx(x) );
 prbl.mu = @(x)( ones(1,size(x,2)) );
 
 % Boundary Conditions
-prbl.BC.neum_sides = [ 1, 3, 4];
-prbl.BC.neum_lim = [ 0, 0, 0; 0.45, 0.5, 1];
-prbl.BC.neum_fun{1} = @(x)(  a*sin( b*(x(2,:)-origin(2)) ) );
-prbl.BC.neum_fun{2} = @(x)( -b*exp(-a*(x(1,:)-origin(1))) );
-prbl.BC.neum_fun{3} = @(x)(  b*exp(-a*(x(1,:)-origin(1))) );
+prbl.BC.neum_sides = [];
 
-prbl.BC.dir_sides = [ 1, 2, 3];
-prbl.BC.dir_lim = [ 0.45, 0, 0.5; 1, 1, 1];
+prbl.BC.dir_sides = [ 1, 2, 3, 4];
+prbl.BC.dir_lim =[ 0, 0, 0, 0; 1, 1, 1, 1];
 prbl.BC.dir_fun{1} = @(x)( uEx(x) );
 prbl.BC.dir_fun{2} = @(x)( uEx(x) );
 prbl.BC.dir_fun{3} = @(x)( uEx(x) );
+prbl.BC.dir_fun{4} = @(x)( uEx(x) );
 
 %% Solve Problem
-[u_h, mesh, space] = solve_Laplace2d( prbl, meth);
+[sol, mesh, space] = solve_Laplace2d( prbl, meth);
 
 %% Compare to Exact Solution
-[errL2, errH1] = spErrSol( space, mesh, geo, u_h, uEx, uExGrad );
+[errL2, errH1] = spErrSol( space, mesh, geo, sol, uEx, uExGrad );
 fprintf('\n   ||u_h - u||_{L2} = %g\n   ||u_h - u||_{H1} = %g\n\n',errL2,errH1)
 
 %% Plot Solution
@@ -79,6 +73,7 @@ surf(MX(1:meth.rBFDir(1):end,1:meth.rBFDir(2):end),MY(1:meth.rBFDir(1):end,1:met
 title('Mesh')
 view([0,90])
 figure
-surf(reshape(Z(1,:),sizeResh),reshape(Z(2,:),sizeResh),reshape(u_h,nDofDir(1),nDofDir(2)),'EdgeColor','none')
+surf(reshape(Z(1,:),sizeResh),reshape(Z(2,:),sizeResh),reshape(sol,nDofDir(1),nDofDir(2)),'EdgeColor','none')
 colorbar
 title('Numerical Solution u_h')
+
