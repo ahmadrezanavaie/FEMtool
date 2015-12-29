@@ -76,7 +76,7 @@ reaction = Q/(volBasisFun*S);
 % Time
 prbl.Tmax = 1000;
 % Reaction Term and Diffusion Coefficient and Initial Solution
-prbl.f = @(x,t)( -reaction*( (abs(x(1,:)-xWell(1)) <= 0.5*sizeDom(1)/meth.nElDir(1)) & (abs(x(2,:)-xWell(2)) <= 0.5*sizeDom(2)/meth.nElDir(2)) ) );
+prbl.f = @(x)( -reaction*( (abs(x(1,:)-xWell(1)) <= 0.5*sizeDom(1)/meth.nElDir(1)) & (abs(x(2,:)-xWell(2)) <= 0.5*sizeDom(2)/meth.nElDir(2)) ) );
 muFact = T/S;
 prbl.mu = @(x)( muFact*ones(1,size(x,2)) );
 prbl.sigma = @(x)( ones(1,size(x,2)) );
