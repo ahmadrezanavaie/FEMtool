@@ -1,6 +1,6 @@
 function [ u_1, varargout ] = intHeatRKC2( u_0, F_0, f, FE, RKC, op, BC)
 %INTHEATRKC2 is the numerical integrator of one time step by the second
-%order stabilized and explicit Runge Kutta Chebyshev method of the heat
+%order STABILIZED and explicit RUNGE KUTTA CHEBYSHEV method of the heat
 %problem:
 %
 % find u : \Omega x ]0,T] --> R s.t.
