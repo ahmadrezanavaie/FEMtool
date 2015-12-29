@@ -10,7 +10,7 @@ function [ u_1, varargout ] = intHeatEE( u_0, F_0, f, FE, RK, op, BC, varargin)
 %                          \mu du(x,t)/dn = h(x,t),     on \Gamma_N x ]0,T]
 %
 %where \Omega is a compact subset of R^2 parametrizable from a parametric
-%rectangular domain. In order to awoid the solutio of a linear system, a
+%rectangular domain. In order to avoid the solutio of a linear system, a
 %MASS LUMPING strategy is implemented.
 %
 %
