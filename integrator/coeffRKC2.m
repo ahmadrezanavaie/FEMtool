@@ -1,6 +1,6 @@
 function [mu, nu, mup, gammap, ct] = coeffRKC2( s, eta )
-%COEFFRKC2 computes the coefficients for the second order stabilized Runge
-%Kutta Chebyshev (RKC) method for a given stage number s and stabilization 
+%COEFFRKC2 computes the coefficients for the second order damped Runge
+%Kutta Chebyshev (RKC) method for a given stage number s and damping 
 %coefficient eta. If s=1 the RKC method is equivalent to the Euler explicit
 %method and therefore, the coefficients mu, nu, and gammap are all zeros.
 %
@@ -20,7 +20,7 @@ function [mu, nu, mup, gammap, ct] = coeffRKC2( s, eta )
 % INPUT
 % -----
 % s                 (1 x 1 integer) Stage number s
-% eta               (1 x 1 double) Stabilization coefficient eta
+% eta               (1 x 1 double) Damping coefficient eta
 %
 %
 % OUTPUT

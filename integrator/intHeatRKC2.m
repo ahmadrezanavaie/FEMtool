@@ -1,6 +1,6 @@
 function [ u_1, varargout ] = intHeatRKC2( u_0, F_0, f, FE, RKC, op, BC)
 %INTHEATRKC2 is the numerical integrator of one time step by the second
-%order STABILIZED and explicit RUNGE KUTTA CHEBYSHEV method of the heat
+%order DAMPED and explicit RUNGE KUTTA CHEBYSHEV method of the heat
 %problem:
 %
 % find u : \Omega x ]0,T] --> R s.t.
@@ -37,9 +37,11 @@ function [ u_1, varargout ] = intHeatRKC2( u_0, F_0, f, FE, RKC, op, BC)
 %   .geo            (see geo_2d.m)
 %   .mesh           (see mesh_2d.m)
 %   .space          (see space_2d.m)
-% RK                (struct)
+% RKC               (struct)
 %   .t              (1 x 1 double) Time t_0
 %   .dt             (1 x 1 double) Time step dt: t_1 = t_0 + dt
+%   .s              (1 x 1 integer) Stage number s
+%   .eta            (1 x 1 double) Damping coefficient eta
 % op                (struct)
 %   .A              (nDof x nDof double) Stiffness matrix
 %   .M              (nDof x nDof double) Mass matrix
