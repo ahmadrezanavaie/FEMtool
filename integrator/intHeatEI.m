@@ -97,7 +97,7 @@ if nargin - nArgIn0 == 3
     wDir_1 = varargin{2};
     F_1 = varargin{3};
 else
-    [rhsDir_1, wDir_1] = rhsDir( t_1, op.A, FE.space, BC );
+    [rhsDir_1, wDir_1] = rhsDir( t_1, op, FE.space, BC );
     F_1 = rhsF( t_1, f, op, FE ) + rhsDir_1 + rhsNeum( t_1, FE.space, BC );
 end
  

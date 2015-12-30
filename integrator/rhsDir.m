@@ -1,4 +1,4 @@
-function [ rhs, varargout ] = rhsDir( t, A, space, BC )
+function [ rhs, varargout ] = rhsDir( t, op, space, BC )
 %RHSDIR computes the right hand side weights of the Dirichlet boundary
 %conditions defined in BC. If the conditions are stationary, previously
 %computed weights are re-used.
@@ -15,7 +15,9 @@ function [ rhs, varargout ] = rhsDir( t, A, space, BC )
 % INPUT
 % -----
 % t                 (1 x 1 double) Time t
-% A                 (nDof x nDof double) Stiffness matrix
+% op                (struct)
+%   .A              (nDof x nDof double) Stiffness matrix
+%   .M              (nDof x nDof double) Mass matrix
 % space             (see output space_2d.m/space_3d.m)
 % BC                (struct)
 %	.dir_sides      (1 x nDir double) Dirichlet boundary indices
@@ -67,7 +69,7 @@ if ~isempty(BC.dir_sides)
     intDof = setdiff(1:space.nDof,dirDof);
 
 
-    rhs(intDof) = -A(intDof,dirDof)*wDir;
+    rhs(intDof) = -op.A(intDof,dirDof)*wDir;
 end
 
 if nargout == 2

@@ -94,7 +94,7 @@ if nargin - nArgIn0 == 2
     rhsDir_1 = varargin{1};
     wDir_1 = varargin{2};
 else
-    [rhsDir_1, wDir_1] = rhsDir( t_1, op.A, FE.space, BC );
+    [rhsDir_1, wDir_1] = rhsDir( t_1, op, FE.space, BC );
 end
  
 MintLump = sum(op.M(intDof,intDof),2);

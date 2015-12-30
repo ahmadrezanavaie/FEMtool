@@ -81,7 +81,7 @@ t_1 = RK.t+RK.dt;
 dirDof = BC.dir.dof;
 intDof = setdiff(1:FE.space.nDof,BC.dir.dof);
 
-[rhsDir_1, dirWeights_1] = rhsDir( t_1, op.A, FE.space, BC );
+[rhsDir_1, dirWeights_1] = rhsDir( t_1, op, FE.space, BC );
 F_1 = rhsF( t_1, f, op, FE ) + rhsDir_1 + rhsNeum( t_1, FE.space, BC );
  
 Mint = op.M(intDof,intDof);

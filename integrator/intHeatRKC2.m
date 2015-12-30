@@ -97,7 +97,7 @@ Mlumped = sum(op.M,2);
 R_0 = 0*u_0;
 R_0(intDof) = (-Aint*u_0(intDof) + F_0(intDof))./Mlumped(intDof);
 
-[rhsDir_jm1, wDir_jm1] = rhsDir( t_0 + ct(2)*dt, op.A, FE.space, BC );
+[rhsDir_jm1, wDir_jm1] = rhsDir( t_0 + ct(2)*dt, op, FE.space, BC );
 g_0 = u_0; g_jm2 = g_0;
 g_jm1 = 0*g_0; g_jm1(dirDof) = wDir_jm1;
 g_jm1(intDof) = g_0(intDof) + mup(2)*dt*R_0(intDof);
@@ -108,7 +108,7 @@ R_jm1 = 0*R_0;
 R_jm1(intDof) = (-Aint*g_jm1(intDof) + F_jm1(intDof))./Mlumped(intDof);
 
 for jj = 2:RKC.s
-    [rhsDir_j, wDir_j] = rhsDir( t_0 + ct(jj+1)*dt, op.A, FE.space, BC );
+    [rhsDir_j, wDir_j] = rhsDir( t_0 + ct(jj+1)*dt, op, FE.space, BC );
     g_j = 0*g_jm1; g_j(dirDof) = wDir_j;
     g_j(intDof) = (1-mu(jj+1)-nu(jj+1))*g_0(intDof) + mu(jj+1)*g_jm1(intDof) + ...
         nu(jj+1)*g_jm2(intDof) + mup(jj+1)*dt*R_jm1(intDof) + gammap(jj+1)*dt*R_0(intDof);
