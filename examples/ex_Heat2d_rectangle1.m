@@ -75,10 +75,19 @@ prbl.BC.dir_fun{2} = @(x,t)( uEx(x,t) );
 prbl.BC.dir_fun{3} = @(x,t)( uEx(x,t) );
 prbl.BC.dir_fun{4} = @(x,t)( uEx(x,t) );
 
+% prbl.BC.neum_sides = [ 1, 2, 3, 4 ];
+% prbl.BC.neum_lim = [ 0, 0, 0, 0; 1, 1, 1, 1];
+% prbl.BC.neum_fun{1} = @(x,t)(  a*uEx(x,t) );
+% prbl.BC.neum_fun{2} = @(x,t)( -a*uEx(x,t) );
+% prbl.BC.neum_fun{3} = @(x,t)( -b*exp(-c*t)*exp( -a*(x(1,:)-origin(1)) ).*cos( b*(x(2,:)-origin(2)) ) );
+% prbl.BC.neum_fun{4} = @(x,t)(  b*exp(-c*t)*exp( -a*(x(1,:)-origin(1)) ).*cos( b*(x(2,:)-origin(2)) ) );
+% 
+% prbl.BC.dir_sides = [];
+
 
 %% Solve Problem
 output.screen_flag = 1;
-output.vtk_flag = 1;
+output.vtk_flag = 0;
 output.vtk_name = ['VTK/output/rect1_', meth.timeScheme, '_'];
 output.vtk_freq = 1;
 output.lmA_flag = 0;

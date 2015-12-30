@@ -47,25 +47,28 @@ function [ rhs, varargout ] = rhsDir( t, A, space, BC )
 %   WITHOUT ANY WARRANTY; without even the implied warranty of
 %   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-wDir = [];
-for iSide = 1:length(BC.dir_sides)
-    if nargin(BC.dir_fun{iSide}) == 2
-        fun = @(x)( BC.dir_fun{iSide}(x,t) );
-        proj = opFV( BC.dir.space{iSide},...
-            BC.dir.mesh{iSide}, fun, BC.dir.geo{iSide} );
-    else
-        proj = BC.dir.projfv{iSide};
-    end
-    weights = BC.dir.mass{iSide}\proj;
-    wDir = [wDir; weights];
-end
-wDir = wDir(BC.dir.sortMap);
-
-dirDof = BC.dir.dof;
-intDof = setdiff(1:space.nDof,dirDof);
-
 rhs = zeros(space.nDof,1);
-rhs(intDof) = -A(intDof,dirDof)*wDir;
+wDir = [];
+if ~isempty(BC.dir_sides)
+    for iSide = 1:length(BC.dir_sides)
+        if nargin(BC.dir_fun{iSide}) == 2
+            fun = @(x)( BC.dir_fun{iSide}(x,t) );
+            proj = opFV( BC.dir.space{iSide},...
+                BC.dir.mesh{iSide}, fun, BC.dir.geo{iSide} );
+        else
+            proj = BC.dir.projfv{iSide};
+        end
+        weights = BC.dir.mass{iSide}\proj;
+        wDir = [wDir; weights];
+    end
+    wDir = wDir(BC.dir.sortMap);
+
+    dirDof = BC.dir.dof;
+    intDof = setdiff(1:space.nDof,dirDof);
+
+
+    rhs(intDof) = -A(intDof,dirDof)*wDir;
+end
 
 if nargout == 2
     varargout{1} = wDir;

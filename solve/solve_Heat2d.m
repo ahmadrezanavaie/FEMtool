@@ -209,7 +209,7 @@ if ~isempty(BC.dir_sides)
     BC.dir = bndry_info(geo,mesh,space,BC.dir_sides,BC.dir_lim,...
         BC.dir_fun,'dof',1,'projfv',1,'mass',1);
 else
-    BC.dir = [];
+    BC.dir.dof = [];
 end
 % Neuman
 if ~isempty(BC.neum_sides)
